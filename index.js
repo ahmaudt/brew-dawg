@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const brewForm = document.querySelector('form');
     brewForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        let brewSearch = e.target.searchBrews.value;
+        let brewSearch = encodeURIComponent(e.target.searchBrews.value);
         fetch(`https://api.openbrewerydb.org/breweries/search?query=${brewSearch}`)
         .then(res => res.json())
         .then(data => console.log(data));

@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM Content Now Loaded');
     const form = document.querySelector('form');
-    let input = document.querySelector('input');
     
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -10,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // deletes old results if they exist
         resultsDiv.innerHTML = '';
         const usrTxt = document.querySelector('input');
-        let userInput = encodeURIComponent(usrTxt.value)
         function getParams(input) {
             let url = '';
             let userInput = encodeURIComponent(input.value);
@@ -23,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 url = `by_type=${userInput}`
             }
-            console.log(url);
             return url;
         }
         let brewSearch = getParams(usrTxt);
@@ -84,49 +81,5 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                 }}
             })
-        // Promise.all([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(id => 
-        //     fetch(`https://api.openbrewerydb.org/breweries?by_state=${brewSearch}&per_page=50&page=${id}`).then(res => res.json())
-        // )).then(data => { for (let i = 1; i < 10; i++) {
-        //     let breweries = [];
-        //     let results = data.filter(item => item.length > 0)[i - 1];
-        //     breweries.push(results.filter(Boolean));
-        //     if (breweries.length > 0) {
-        //         breweries.forEach(brewery => {
-        //             brewery.forEach(brew => {
-        //                 const brewAnchor = document.createElement('a');
-        //                 brewAnchor.href = `${brew.website_url}`;
-        //                 const flexDiv = document.createElement('div');
-        //                 const innerDiv = document.createElement('div');
-        //                 brewAnchor.classList.add("list-group-item", "list-group-item-action", "d-flex", "gap-3", "py-3");
-        //                 flexDiv.classList.add("d-flex", "gap-2", "w-100");
-        //                 let innerFlexContent = document.createElement('small');
-        //                 innerFlexContent.classList.add("text-muted");
-        //                 innerFlexContent.innerHTML = `${brew.city}, <a href=``> ${brew.state}`;
-        //                 const brewType = () => {
-        //                     if (brew.brewery_type === 'micro') {
-        //                         return `<h6 class='mb-0 mr-4'>${brew.name}</h6><p class='mb-0 opacity-75'>${brew.brewery_type}</p>`
-        //                     } else if (brew.brewery_type === 'brewpub') {
-        //                         return `<h6 class="mb-0 mr-2">${brew.name}</h6><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
-        //                     } else if (brew.brewery_type === 'large') {
-        //                         return `<h6 class="mb-0 mr-2">${brew.name}</h6><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
-        //                     } else if (brew.brewery_type === 'planning') {
-        //                         return `<h6 class="mb-0 mr-2">${brew.name}</h6><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
-        //                     } else if (brew.brewery_type === 'regional') {
-        //                         return `<h6 class="mb-0 mr-2">${brew.name}</h6><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
-        //                     } else if (brew.brewery_type === 'contract') {
-        //                         return `<h6 class="mb-0 mr-2">${brew.name}</h6><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
-        //                     } else {
-        //                         return `<h6 class="mb-0 mr-2">${brew.name}</h6><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
-        //                     }
-        //                 }
-        //                 brewAnchor.innerHTML = brewType();
-        //                 resultsDiv.append(brewAnchor);
-        //                 brewAnchor.append(flexDiv);
-        //                 flexDiv.append(innerDiv);
-        //                 innerDiv.after(innerFlexContent);
-        //             })
-        //         })
-        //     }}
-        // });
     })
 });

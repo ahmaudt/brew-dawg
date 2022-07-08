@@ -9,31 +9,32 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-      function searchByInput() {
-        let searchBy = document.getElementById('searchType');
-        let searchID = searchBy.selectedOptions[0].value;
-        let searchInput = document.createElement('input');
-        let searchBtn = document.createElement('button');
-        searchBtn.setAttribute('type', 'submit');
-        searchBtn.classList.add('btn', 'btn-primary', 'rounded-1', 'mt-3');
-        searchBtn.innerText = 'Search';
-        searchInput.setAttribute('type', 'text');
-        searchInput.id = "search"+searchID.toString()
-        searchInput.classList.add('form-control-sm', searchID.toString(), 'rounded-0', 'mt-2');
+      // function searchByInput() {
+      //   let searchBy = document.getElementById('searchBy');
+      //   let searchID = searchBy.selectedOptions[0].value;
+      //   let searchInput = document.createElement('input');
+      //   let searchBtn = document.createElement('button');
+      //   searchBtn.setAttribute('type', 'submit');
+      //   searchBtn.classList.add('btn', 'btn-primary', 'rounded-1', 'mt-3');
+      //   searchBtn.innerText = 'Search';
+      //   searchInput.setAttribute('type', 'text');
+      //   searchInput.id = searchID.toString()
+      //   searchInput.classList.add('form-control-sm', searchID.toString(), 'rounded-0', 'mt-2');
+      //   console.log(searchInput.classList[1]);
         
-        // searchInput.id = `${searchID}`;
-        // searchInput.class = 'form-control';
-        if (searchBy.nextElementSibling.tagName === 'INPUT') {
-          let currentInput = document.querySelector('input');
-          let currentBtn = document.querySelector('button');
-            currentInput.replaceWith(searchInput);
-            currentBtn.replaceWith(searchBtn);
+      //   // searchInput.id = `${searchID}`;
+      //   // searchInput.class = 'form-control';
+      //   if (searchBy.nextElementSibling.tagName === 'INPUT') {
+      //     let currentInput = document.querySelector('input');
+      //     let currentBtn = document.querySelector('button');
+      //       currentInput.replaceWith(searchInput);
+      //       // currentBtn.replaceWith(searchBtn);
 
-        } else {
-            searchBy.after(searchInput);
-            searchInput.after(searchBtn);
-        }
-      }
+      //   } else {
+      //       searchBy.after(searchInput);
+      //       // searchInput.after(searchBtn);
+      //   }
+      // }
     </script>
 
     <!-- CSS only -->
@@ -43,7 +44,7 @@
     <script src="https://kit.fontawesome.com/8747879bbd.js" crossorigin="anonymous"></script>
     <link href="list-groups.css" rel="stylesheet">
 
-    <title>Brew Dawg: Find Your Next Favorite Beer</title>
+    <title>Brew Dawg: Find The Nearest Good Beer</title>
   </head>
   <body>
 
@@ -56,11 +57,10 @@
           <form class="row g-3 needs-validation" id="searchForm" novalidate method="GET">
             <div class="col-md-4">
               <label for="searchType" class="form-label">Search by:</label>
-              <select onchange="searchByInput()" class="custom-select" id="searchType" name="searchType" required>
+              <select class="custom-select" id="searchBy" name="searchBy" required>
+                <option value="">Select search option…</option>
                 <option value="City">City</option>
                 <option value="State">State</option>
-                <option value="Name">Brewery Name</option>
-                <option value="Type">Brewery Type</option>
               </select>
               <!-- <label for="searchBrews" class="form-label">Find Brewery</label>
               <input type="text" class="form-control" id="searchBrews" required> -->
@@ -70,7 +70,8 @@
             </div>
             
             <div class="col-12">
-              <!-- <button class="btn btn-primary" type="submit">Submit form</button> -->
+              <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button> 
+              <button class="btn btn-primary" type="submit">Submit form</button>
             </div>
           </form>
         </div>
@@ -91,12 +92,12 @@
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script> -->
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    -->
+   
   </body>
 </html>

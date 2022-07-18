@@ -6,9 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let selection = document.querySelector('select');
     selection.onchange = searchByInput;
 
+    // Helper functions
+
     function setAttrs(element, attrs) {
         Object.keys(attrs).forEach(attr => {
             element.setAttribute(attr, attrs[attr]);
+        })
+    }
+
+    function likeBrew(icon) {
+        icon.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(e.target)
         })
     }
     
@@ -25,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.id = searchID.toString()
         searchInput.classList.add('form-control-sm', searchID.toString(), 'rounded-0', 'mt-2');
         console.log(searchInput.classList[1]);
-        
+
         // searchInput.id = `${searchID}`;
         // searchInput.class = 'form-control';
         if (searchBy.nextElementSibling.tagName === 'INPUT') {
@@ -70,22 +79,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (breweries.length > 0) {
                     breweries.forEach(brewery => {
                         brewery.forEach(brew => {
+                            let brewId = `${brew.name[0]+brew.name[1]+brew.name[2]+brew.name[3]+brew.name[4]}`;
+                            let brewDiv = document.createElement('div');
+                            brewDiv.classList.add("list-group-item", "list-group-item-action", "d-flex", "gap-3", "py-3");
                             const brewAnchor = document.createElement('a');
-                            const anchorAttributes = {
+                            const divAttributes = {
                                 "data-bs-toggle": 'modal',
-                                "data-bs-target": `#${brew.name[0]+brew.name[1]+brew.name[2]+brew.name[3]+brew.name[4]+brew.name[5]+brew.name[6]}`
+                                "data-bs-target": `#${brewId}`
                             }
-                            setAttrs(brewAnchor, anchorAttributes);
-                            brewAnchor.addEventListener('shown.bs.modal', (e) => {
+
+                            setAttrs(brewDiv, divAttributes);
+                            brewDiv.addEventListener('shown.bs.modal', (e) => {
                                  e.target.focus();
                             })
                             let modal = document.createElement('div');
-                            modal.innerHTML = `<div class='modal' id=${brew.name[0]+brew.name[1]+brew.name[2]+brew.name[3]+brew.name[4]+brew.name[5]+brew.name[6]} tabindex='-1'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><h5 class='modal-title'>${brew.name}</h5><button type='button' class='close' data-bs-dismiss='modal'>&times;</button></div><div class='modal-body'><p>View their homepage<a href=${brew.website_url}>here</a></p></div><div class='modal-footer'><button type='button' class='btn btn-primary' data-bs-dismiss='modal'>Close</button></div></div></div></div>`
+                                  modal.innerHTML = `<div class='modal' id=${brewId} tabindex='-1'><div class='modal-dialog modal-dialog-centered'><div class='modal-content'><div class='modal-header'><h5 class='modal-title'>${brew.name}</h5><button type='button' class='close' data-bs-dismiss='modal'>&times;</button></div><div class='modal-body'><p>View their homepage<a href=${brew.website_url}>here</a></p></div><div class='modal-footer'><button type='button' class='btn btn-primary' data-bs-dismiss='modal'>Close</button></div></div></div></div>`
 
                             // brewAnchor.href = `${brew.website_url}`;
                             const flexDiv = document.createElement('div');
                             const innerDiv = document.createElement('div');
-                            brewAnchor.classList.add("list-group-item", "list-group-item-action", "d-flex", 'gap-3', 'py-3');
+                            // brewAnchor.classList.add("list-group-item", "list-group-item-action", "d-flex", 'gap-3', 'py-3');
                             flexDiv.classList.add("d-flex", "w-100", 'justify-content-between');
                             let innerFlexContent = document.createElement('small');
                             innerFlexContent.classList.add("opacity-50", "text-nowrap");
@@ -98,26 +111,28 @@ document.addEventListener('DOMContentLoaded', () => {
                             let addr = encodeURIComponent(`${street}+${city}+${state}+${postalCode}`);
                             console.log(addr)
 
+
                             innerFlexContent.innerHTML = `<a href='https://www.google.com/maps?saddr=My+Location&daddr=${addr}'>${brew.city}, ${brew.state} <i class="fa-solid fa-map-location-dot"></i></a>`;
                             const brewType = () => {
                                 if (brew.brewery_type === 'micro') {
-                                    return `<h5 class='mb-0'><i class="fa-solid fa-beer-mug pe-1"></i>${brew.name}</h5><p class='mb-0 opacity-75'>${brew.brewery_type}</p>`
+                                    return `<h5 class='mb-0'><i class="fa-solid fa-beer-mug pe-1"></i>${brew.name}</h5><p class='mb-0 opacity-75'>${brew.brewery_type}</p>`;
                                 } else if (brew.brewery_type === 'brewpub') {
-                                    return `<h5 class="mb-0"><i class="fa-solid fa-burger-glass pe-1"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
+                                    return `<h5 class="mb-0"><i class="fa-solid fa-burger-glass pe-1"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
                                 } else if (brew.brewery_type === 'large') {
-                                    return `<h5 class="mb-0"><i class="fa-solid fa-buildings pe-2"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
+                                    return `<h5 class="mb-0"><i class="fa-solid fa-buildings pe-2"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
                                 } else if (brew.brewery_type === 'planning') {
-                                    return `<h5 class="ms-0 mb-0"><span class="fa-layers fa-fw pe-3 ps-0"><i class="fa-thin fa-map ps-0"></i><i class="fa-solid fa-road" data-fa-transform='shrink-4 down-6 right-8'></i></span>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type} phase</p>`
+                                    return `<h5 class="ms-0 mb-0"><span class="fa-layers fa-fw pe-3 ps-0"><i class="fa-thin fa-map ps-0"></i><i class="fa-solid fa-road" data-fa-transform='shrink-4 down-6 right-8'></i></span>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type} phase</p>`;
                                 } else if (brew.brewery_type === 'regional') {
-                                    return `<h5 class="mb-0"><i class="fa-solid fa-route-interstate pe-1"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
+                                    return `<h5 class="mb-0"><i class="fa-solid fa-route-interstate pe-1"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
                                 } else if (brew.brewery_type === 'contract') {
-                                    return `<h5 class="mb-0"><i class="fa-solid fa-file-contract pe-1"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
+                                    return `<h5 class="mb-0"><i class="fa-solid fa-file-contract pe-1"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
                                 } else {
-                                    return `<h5 class="mb-0">${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`
+                                    return `<h5 class="mb-0">${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
                                 }
                             }
                             // brewAnchor.innerHTML = brewType();
-                            resultsDiv.append(brewAnchor);
+                            resultsDiv.append(brewDiv);
+                            brewDiv.append(brewAnchor);
                             brewAnchor.append(flexDiv);
                             innerDiv.innerHTML = brewType();
                             flexDiv.append(innerDiv)
@@ -130,4 +145,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 }}
             })
     })
+    form.reset();
 });

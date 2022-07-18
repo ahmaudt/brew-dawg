@@ -88,17 +88,30 @@ document.addEventListener('DOMContentLoaded', () => {
                                 "data-bs-target": `#${brewId}`
                             }
 
-                            setAttrs(brewDiv, divAttributes);
-                            brewDiv.addEventListener('shown.bs.modal', (e) => {
-                                 e.target.focus();
-                            })
-                            let modal = document.createElement('div');
-                                  modal.innerHTML = `<div class='modal' id=${brewId} tabindex='-1'><div class='modal-dialog modal-dialog-centered'><div class='modal-content'><div class='modal-header'><h5 class='modal-title'>${brew.name}</h5><button type='button' class='close' data-bs-dismiss='modal'>&times;</button></div><div class='modal-body'><p>View their homepage<a href=${brew.website_url}>here</a></p></div><div class='modal-footer'><button type='button' class='btn btn-primary' data-bs-dismiss='modal'>Close</button></div></div></div></div>`
+                            // setAttrs(brewDiv, divAttributes);
+                            brewAnchor.innerHTML = `<div class='fa-2x'><i class="fa-light fa-heart float-start pb-2"></i></div>`;
+                            let modalAnchors = Array.from(document.querySelectorAll('h4.mb-0'));
+                            modalAnchors.forEach(anchor => {
+                                setAttrs(anchor, divAttributes);
+                                // anchor.id = `${brew.name[0]+brew.name[1]+brew.name[2]+brew.name[3]+brew.name[4]}`;
+                                anchor.addEventListener('shown.bs.modal', () => {
+                                    e.target.focus();
+                                })
+                            });
+                            // let like = document.querySelector('i');
+                            // like.addEventListener('mouseover', (e) => {
+                            //     e.target.classList.remove('fa-light');
+                            //     e.target.classList.add('fa-solid');
+                            // })
+                            // brewDiv.addEventListener('shown.bs.modal', (e) => {
+                            //      e.target.focus();
+                            // })
 
-                            // brewAnchor.href = `${brew.website_url}`;
+                            let modal = document.createElement('div');
+                            modal.innerHTML = `<div class='modal' id=${brewId} tabindex='-1'><div class='modal-dialog modal-dialog-centered'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>${brew.name}</h4><button type='button' class='close' data-bs-dismiss='modal'>&times;</button></div><div class='modal-body'><p>View their homepage<a href=${brew.website_url}>here</a></p></div><div class='modal-footer'><button type='button' class='btn btn-primary' data-bs-dismiss='modal'>Close</button></div></div></div></div>`;
+
                             const flexDiv = document.createElement('div');
                             const innerDiv = document.createElement('div');
-                            // brewAnchor.classList.add("list-group-item", "list-group-item-action", "d-flex", 'gap-3', 'py-3');
                             flexDiv.classList.add("d-flex", "w-100", 'justify-content-between');
                             let innerFlexContent = document.createElement('small');
                             innerFlexContent.classList.add("opacity-50", "text-nowrap");
@@ -109,25 +122,23 @@ document.addEventListener('DOMContentLoaded', () => {
                             let postalCode = `${brew.postal_code}`;
 
                             let addr = encodeURIComponent(`${street}+${city}+${state}+${postalCode}`);
-                            console.log(addr)
+                            let details = `<h5 class='mb-0 opacity-75'>${brew.brewery_type}</h5><p><a class='ml-5 pl-5' href='https://www.google.com/maps?saddr=My+Location&daddr=${addr}'>${brew.city}, ${brew.state} <i class='fa-solid fa-map-location-dot'></i></a></p>`
 
-
-                            innerFlexContent.innerHTML = `<a href='https://www.google.com/maps?saddr=My+Location&daddr=${addr}'>${brew.city}, ${brew.state} <i class="fa-solid fa-map-location-dot"></i></a>`;
                             const brewType = () => {
                                 if (brew.brewery_type === 'micro') {
-                                    return `<h5 class='mb-0'><i class="fa-solid fa-beer-mug pe-1"></i>${brew.name}</h5><p class='mb-0 opacity-75'>${brew.brewery_type}</p>`;
+                                    return `<h4 class='mb-0' id=${brewId}><i class="fa-solid fa-beer-mug pe-1 fa-2px"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'brewpub') {
-                                    return `<h5 class="mb-0"><i class="fa-solid fa-burger-glass pe-1"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
+                                    return `<h4 class="mb-0" id=${brewId}><i class="fa-solid fa-burger-glass pe-1 fa-2x"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'large') {
-                                    return `<h5 class="mb-0"><i class="fa-solid fa-buildings pe-2"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
+                                    return `<h4 class="mb-0" id=${brewId}><i class="fa-solid fa-buildings pe-2 fa-2x"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'planning') {
-                                    return `<h5 class="ms-0 mb-0"><span class="fa-layers fa-fw pe-3 ps-0"><i class="fa-thin fa-map ps-0"></i><i class="fa-solid fa-road" data-fa-transform='shrink-4 down-6 right-8'></i></span>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type} phase</p>`;
+                                    return `<h4 class="ms-0 mb-0" id=${brewId}><i class="fa-thin fa-map ps-0"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'regional') {
-                                    return `<h5 class="mb-0"><i class="fa-solid fa-route-interstate pe-1"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
+                                    return `<h4 class="mb-0" id=${brewId}><i class="fa-solid fa-route-interstate pe-1 fa-2x"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'contract') {
-                                    return `<h5 class="mb-0"><i class="fa-solid fa-file-contract pe-1"></i>${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
+                                    return `<h4 class="mb-0" id=${brewId}><i class="fa-solid fa-file-contract pe-1 fa-2x"></i>${brew.name}</h4>${details}`;
                                 } else {
-                                    return `<h5 class="mb-0">${brew.name}</h5><p class="mb-0 opacity-75">${brew.brewery_type}</p>`;
+                                    return `<h4 class="mb-0" id=${brewId}>${brew.name}</h4>${details}`;
                                 }
                             }
                             // brewAnchor.innerHTML = brewType();
@@ -138,8 +149,24 @@ document.addEventListener('DOMContentLoaded', () => {
                             flexDiv.append(innerDiv)
                             innerDiv.after(innerFlexContent);
                             resultsDiv.before(modal);
+                            
+                            // innerFlexContent.innerHTML = ``;
+
                             // const popover = document.querySelectorAll('[data-bs-toggle="popover"]');
                             // const popoverIntialize = new bootstrap.Popover(popover);
+                        })
+                        let hearts = Array.from(document.querySelectorAll('.fa-heart'));
+                        hearts.forEach(heart => {
+                            heart.addEventListener('click', (e) => {
+                                let classList = Array.from(heart.classList);
+                                if (classList.includes('fa-solid')) {
+                                    heart.classList.remove('fa-solid');
+                                    heart.classList.add('fa-light');
+                                } else {
+                                    heart.classList.remove('fa-light');
+                                    heart.classList.add('fa-solid');
+                                }
+                            })
                         })
                     })
                 }}

@@ -14,14 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
-    function likeBrew(icon) {
-        icon.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log(e.target)
-        })
-    }
-    
-
     function searchByInput(e) {
         let searchBy = document.getElementById('searchBy');
         let searchID = searchBy.selectedOptions[0].value;
@@ -35,8 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.classList.add('form-control-sm', searchID.toString(), 'rounded-0', 'mt-2');
         console.log(searchInput.classList[1]);
 
-        // searchInput.id = `${searchID}`;
-        // searchInput.class = 'form-control';
         if (searchBy.nextElementSibling.tagName === 'INPUT') {
           let currentInput = document.querySelector('input');
           let currentBtn = document.querySelector('button');
@@ -45,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } else {
             searchBy.after(searchInput);
-            // searchInput.after(searchBtn);
         }
       }
     
@@ -88,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 "data-bs-target": `#${brewId}`
                             }
 
-                            // setAttrs(brewDiv, divAttributes);
                             brewAnchor.innerHTML = `<div class='fa-2x'><i class="fa-light fa-heart float-start pb-2"></i></div>`;
                             let modalAnchors = Array.from(document.querySelectorAll('h4.mb-0'));
                             modalAnchors.forEach(anchor => {
@@ -98,14 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                     e.target.focus();
                                 })
                             });
-                            // let like = document.querySelector('i');
-                            // like.addEventListener('mouseover', (e) => {
-                            //     e.target.classList.remove('fa-light');
-                            //     e.target.classList.add('fa-solid');
-                            // })
-                            // brewDiv.addEventListener('shown.bs.modal', (e) => {
-                            //      e.target.focus();
-                            // })
 
                             let modal = document.createElement('div');
                             modal.innerHTML = `<div class='modal' id=${brewId} tabindex='-1'><div class='modal-dialog modal-dialog-centered'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>${brew.name}</h4><button type='button' class='close' data-bs-dismiss='modal'>&times;</button></div><div class='modal-body'><p>View their homepage<a href=${brew.website_url}>here</a></p></div><div class='modal-footer'><button type='button' class='btn btn-primary' data-bs-dismiss='modal'>Close</button></div></div></div></div>`;
@@ -141,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                     return `<h4 class="mb-0" id=${brewId}>${brew.name}</h4>${details}`;
                                 }
                             }
-                            // brewAnchor.innerHTML = brewType();
                             resultsDiv.append(brewDiv);
                             brewDiv.append(brewAnchor);
                             brewAnchor.append(flexDiv);
@@ -149,11 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             flexDiv.append(innerDiv)
                             innerDiv.after(innerFlexContent);
                             resultsDiv.before(modal);
-                            
-                            // innerFlexContent.innerHTML = ``;
-
-                            // const popover = document.querySelectorAll('[data-bs-toggle="popover"]');
-                            // const popoverIntialize = new bootstrap.Popover(popover);
                         })
                         let hearts = Array.from(document.querySelectorAll('.fa-heart'));
                         hearts.forEach(heart => {

@@ -33,12 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             let brewDiv = document.createElement('div');
                             brewDiv.classList.add("list-group-item", "list-group-item-action", "d-flex", "gap-3", "py-3");
                             const brewAnchor = document.createElement('a');
-
                             brewAnchor.innerHTML = `<div class='fa-2x'><i class="fa-light fa-heart float-start pb-2"></i></div>`;
-
                             let modal = document.createElement('div');
                             modal.innerHTML = `<div class='modal' id=${brewId} tabindex='-1'><div class='modal-dialog modal-dialog-centered'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>${brew.name}</h4><button type='button' class='close' data-bs-dismiss='modal'>&times;</button></div><div class='modal-body'><p>View their homepage<a href=${brew.website_url}>here</a></p></div><div class='modal-footer'><button type='button' class='btn btn-primary' data-bs-dismiss='modal'>Close</button></div></div></div></div>`;
-
                             const flexDiv = document.createElement('div');
                             const innerDiv = document.createElement('div');
                             flexDiv.classList.add("d-flex", "w-100", 'justify-content-between');
@@ -48,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             let city = `${brew.city}`;
                             let state = `${brew.state}`;
                             let postalCode = `${brew.postal_code}`;
-
                             let addr = encodeURIComponent(`${street}+${city}+${state}+${postalCode}`);
                             let details = `<h5 class='mb-0 opacity-75'>${brew.brewery_type}</h5><p><a class='ml-5 pl-5' href='https://www.google.com/maps?saddr=My+Location&daddr=${addr}'>${brew.city}, ${brew.state} <i class='fa-solid fa-map-location-dot'></i></a></p>`
 
@@ -79,8 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         })
                         let modalAnchors = Array.from(document.querySelectorAll('h4.mb-0'));
                         modalAnchors.forEach(anchor => {
-                            // setAttrs(anchor, divAttributes);
-                            // anchor.id = `${brew.name[0]+brew.name[1]+brew.name[2]+brew.name[3]+brew.name[4]}`;
                             anchor.addEventListener('shown.bs.modal', () => {
                                 e.target.focus();
                             })

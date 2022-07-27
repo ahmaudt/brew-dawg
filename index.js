@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form');
 
 
-    let selection = document.querySelector('select');
-    selection.onchange = searchByInput;
+    // let selection = document.querySelector('select');
+    // selection.onchange = searchByInput;
 
     // Helper functions
 
@@ -56,11 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return url;
         }
         let brewSearch = getParams(usrTxt);
+        let usrInput = document.querySelector('input');
+        console.log(usrInput.value);
+
         
         // API does not return pagination for results.
         // So, fetch maximum of 9 pages manually, then filters empty arrays to get all results
         Promise.all([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(id => 
-                fetch(`https://api.openbrewerydb.org/breweries?${brewSearch}&per_page=50&page=${id}`).then(res => res.json())
+                fetch(`https://api.openbrewerydb.org/breweries?by_city=${usrInput.value}&per_page=50&page=${id}`).then(res => res.json())
             )).then(data => { for (let i = 1; i < 10; i++) {
                 let breweries = [];
                 let results = data.filter(item => item.length > 0)[i - 1];
@@ -68,24 +71,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (breweries.length > 0) {
                     breweries.forEach(brewery => {
                         brewery.forEach(brew => {
-                            let brewId = `${brew.name[0]+brew.name[1]+brew.name[2]+brew.name[3]+brew.name[4]}`;
+                            let brewId = `${(brew.name[0]+brew.name[1]+brew.name[2]+brew.name[3]+brew.name[4]).replace(" ", "")}`;
+                            brewId.replace(" ", "");
                             let brewDiv = document.createElement('div');
                             brewDiv.classList.add("list-group-item", "list-group-item-action", "d-flex", "gap-3", "py-3");
                             const brewAnchor = document.createElement('a');
-                            const divAttributes = {
-                                "data-bs-toggle": 'modal',
-                                "data-bs-target": `#${brewId}`
-                            }
+                            // const divAttributes = {
+                            //     "data-bs-toggle": 'modal',
+                            //     "data-bs-target": `#${brewId}`
+                            // }
 
                             brewAnchor.innerHTML = `<div class='fa-2x'><i class="fa-light fa-heart float-start pb-2"></i></div>`;
-                            let modalAnchors = Array.from(document.querySelectorAll('h4.mb-0'));
-                            modalAnchors.forEach(anchor => {
-                                setAttrs(anchor, divAttributes);
-                                // anchor.id = `${brew.name[0]+brew.name[1]+brew.name[2]+brew.name[3]+brew.name[4]}`;
-                                anchor.addEventListener('shown.bs.modal', () => {
-                                    e.target.focus();
-                                })
-                            });
+                            
 
                             let modal = document.createElement('div');
                             modal.innerHTML = `<div class='modal' id=${brewId} tabindex='-1'><div class='modal-dialog modal-dialog-centered'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>${brew.name}</h4><button type='button' class='close' data-bs-dismiss='modal'>&times;</button></div><div class='modal-body'><p>View their homepage<a href=${brew.website_url}>here</a></p></div><div class='modal-footer'><button type='button' class='btn btn-primary' data-bs-dismiss='modal'>Close</button></div></div></div></div>`;
@@ -106,19 +103,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             const brewType = () => {
                                 if (brew.brewery_type === 'micro') {
-                                    return `<h4 class='mb-0' id=${brewId}><i class="fa-solid fa-beer-mug pe-1 fa-2px"></i>${brew.name}</h4>${details}`;
+                                    return `<h4 class='mb-0' id=${brewId} data-bs-toggle="modal" data-bs-target="#${brewId}"><i class="fa-solid fa-beer-mug pe-1 fa-2px"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'brewpub') {
-                                    return `<h4 class="mb-0" id=${brewId}><i class="fa-solid fa-burger-glass pe-1 fa-2x"></i>${brew.name}</h4>${details}`;
+                                    return `<h4 class='mb-0' id=${brewId} data-bs-toggle="modal" data-bs-target="#${brewId}"><i class="fa-solid fa-burger-glass pe-1 fa-2x"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'large') {
-                                    return `<h4 class="mb-0" id=${brewId}><i class="fa-solid fa-buildings pe-2 fa-2x"></i>${brew.name}</h4>${details}`;
+                                    return `<h4 class='mb-0' id=${brewId} data-bs-toggle="modal" data-bs-target="#${brewId}"><i class="fa-solid fa-buildings pe-2 fa-2x"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'planning') {
-                                    return `<h4 class="ms-0 mb-0" id=${brewId}><i class="fa-thin fa-map ps-0"></i>${brew.name}</h4>${details}`;
+                                    return `<h4 class='mb-0' id=${brewId} data-bs-toggle="modal" data-bs-target="#${brewId}"><i class="fa-thin fa-map ps-0"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'regional') {
-                                    return `<h4 class="mb-0" id=${brewId}><i class="fa-solid fa-route-interstate pe-1 fa-2x"></i>${brew.name}</h4>${details}`;
+                                    return `<h4 class='mb-0' id=${brewId} data-bs-toggle="modal" data-bs-target="#${brewId}"><i class="fa-solid fa-route-interstate pe-1 fa-2x"></i>${brew.name}</h4>${details}`;
                                 } else if (brew.brewery_type === 'contract') {
                                     return `<h4 class="mb-0" id=${brewId}><i class="fa-solid fa-file-contract pe-1 fa-2x"></i>${brew.name}</h4>${details}`;
                                 } else {
-                                    return `<h4 class="mb-0" id=${brewId}>${brew.name}</h4>${details}`;
+                                    return `<h4 class='mb-0' id=${brewId} data-bs-toggle="modal" data-bs-target="#${brewId}">${brew.name}</h4>${details}`;
                                 }
                             }
                             resultsDiv.append(brewDiv);
@@ -129,6 +126,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             innerDiv.after(innerFlexContent);
                             resultsDiv.before(modal);
                         })
+                        let modalAnchors = Array.from(document.querySelectorAll('h4.mb-0'));
+                        modalAnchors.forEach(anchor => {
+                            // setAttrs(anchor, divAttributes);
+                            // anchor.id = `${brew.name[0]+brew.name[1]+brew.name[2]+brew.name[3]+brew.name[4]}`;
+                            anchor.addEventListener('shown.bs.modal', () => {
+                                e.target.focus();
+                            })
+                        });
                         let hearts = Array.from(document.querySelectorAll('.fa-heart'));
                         hearts.forEach(heart => {
                             heart.addEventListener('click', (e) => {
@@ -146,5 +151,4 @@ document.addEventListener('DOMContentLoaded', () => {
                 }}
             })
     })
-    form.reset();
 });

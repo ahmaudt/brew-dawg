@@ -1,12 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM Content Now Loaded');
     const form = document.querySelector('form');
-
-
-    // let selection = document.querySelector('select');
-    // selection.onchange = searchByInput;
-
-    // Helper functions
     
     form.addEventListener('submit', (e) => {
         e.preventDefault();

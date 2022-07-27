@@ -7,36 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // selection.onchange = searchByInput;
 
     // Helper functions
-
-    function setAttrs(element, attrs) {
-        Object.keys(attrs).forEach(attr => {
-            element.setAttribute(attr, attrs[attr]);
-        })
-    }
-
-    function searchByInput(e) {
-        let searchBy = document.getElementById('searchBy');
-        let searchID = searchBy.selectedOptions[0].value;
-        let searchInput = document.createElement('input');
-        let searchBtn = document.createElement('button');
-        searchBtn.setAttribute('type', 'submit');
-        searchBtn.classList.add('btn', 'btn-primary', 'rounded-1', 'mt-3');
-        searchBtn.innerText = 'Search';
-        searchInput.setAttribute('type', 'text');
-        searchInput.id = searchID.toString()
-        searchInput.classList.add('form-control-sm', searchID.toString(), 'rounded-0', 'mt-2');
-        console.log(searchInput.classList[1]);
-
-        if (searchBy.nextElementSibling.tagName === 'INPUT') {
-          let currentInput = document.querySelector('input');
-          let currentBtn = document.querySelector('button');
-            currentInput.replaceWith(searchInput);
-            // currentBtn.replaceWith(searchBtn);
-
-        } else {
-            searchBy.after(searchInput);
-        }
-      }
     
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -44,20 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsDiv.classList.add('align-self-start');
         // deletes old results if they exist
         resultsDiv.innerHTML = '';
-        const usrTxt = document.querySelector('input');
-        function getParams(input) {
-            let url = '';
-            let userInput = encodeURIComponent(input.value);
-            if (input.classList[1] === "State") {
-                url = `by_state=${userInput}`
-            } else if (input.classList[1] === "City") {
-                url = `by_city=${userInput}`
-            }
-            return url;
-        }
-        let brewSearch = getParams(usrTxt);
         let usrInput = document.querySelector('input');
-        console.log(usrInput.value);
 
         
         // API does not return pagination for results.
@@ -76,13 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             let brewDiv = document.createElement('div');
                             brewDiv.classList.add("list-group-item", "list-group-item-action", "d-flex", "gap-3", "py-3");
                             const brewAnchor = document.createElement('a');
-                            // const divAttributes = {
-                            //     "data-bs-toggle": 'modal',
-                            //     "data-bs-target": `#${brewId}`
-                            // }
 
                             brewAnchor.innerHTML = `<div class='fa-2x'><i class="fa-light fa-heart float-start pb-2"></i></div>`;
-                            
 
                             let modal = document.createElement('div');
                             modal.innerHTML = `<div class='modal' id=${brewId} tabindex='-1'><div class='modal-dialog modal-dialog-centered'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>${brew.name}</h4><button type='button' class='close' data-bs-dismiss='modal'>&times;</button></div><div class='modal-body'><p>View their homepage<a href=${brew.website_url}>here</a></p></div><div class='modal-footer'><button type='button' class='btn btn-primary' data-bs-dismiss='modal'>Close</button></div></div></div></div>`;
@@ -92,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             flexDiv.classList.add("d-flex", "w-100", 'justify-content-between');
                             let innerFlexContent = document.createElement('small');
                             innerFlexContent.classList.add("opacity-50", "text-nowrap");
-                            console.log(brew);
                             let street = `${brew.street}`;
                             let city = `${brew.city}`;
                             let state = `${brew.state}`;

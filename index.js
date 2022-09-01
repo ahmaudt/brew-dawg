@@ -15,10 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // So, fetch maximum of 9 pages manually, then filters empty arrays to get all results
         Promise.all([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(id => 
                 fetch(`https://api.openbrewerydb.org/breweries?by_city=${usrInput.value}&per_page=50&page=${id}`).then(res => res.json())
-            )).then(data => { for (let i = 1; i < 10; i++) {
+            )).then(data =>  {
                 let breweries = [];
-                let results = data.filter(item => item.length > 0)[i - 1];
-                breweries.push(results.filter(Boolean));
+                breweries.push((data.filter(item => item.length > 0)[0]));
+                const uniqueBreweries = (breweries.flat().filter((item, index) => breweries.flat().findIndex(i => i.id === item.id) === index));
+                console.log(uniqueBreweries);
                 if (breweries.length > 0) {
                     breweries.forEach(brewery => {
                         brewery.forEach(brew => {
@@ -87,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             })
                         })
                     })
-                }}
+                }
             })
     })
 });
